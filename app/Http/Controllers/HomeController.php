@@ -2,20 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ciudad;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Show the application dashboard.
      *
@@ -23,6 +15,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $ciudades = Ciudad::all();
+        $categorias = Categoria::all();
+
+        return view('home', ['ciudades' => $ciudades, 'categorias' => $categorias]);
+    }
+
+    public function show($id)
+    {
+        $ciudad = Ciudad::findOrFail($id);
+        $ciudades = Ciudad::all();
+        $categorias = Categoria::all();
+
+        return view('home', ['ciudad' => $ciudad, 'ciudades' => $ciudades, 'categorias' => $categorias]);
     }
 }

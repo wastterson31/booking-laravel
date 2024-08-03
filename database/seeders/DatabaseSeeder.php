@@ -1,8 +1,14 @@
 <?php
 
-namespace Database\Seeders;
+
+
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\UserSeeder;
+use Database\Seeders\PaisesSeeder;
+use Database\Seeders\CiudadesSeeder;
+use Database\Seeders\CategoriaSeeder;
+use Database\Seeders\ViajesTableSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,12 +19,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
         $this->call([
-            PermissionSeeder::class,
-            RoleSeeder::class,
-            RoleHasPermissionSeeder::class,
-            UserSeeder::class,
+            PaisesSeeder::class,
+            CiudadesSeeder::class,
+            ViajesTableSeeder::class,
+            CategoriaSeeder::class,
+
         ]);
     }
 }
