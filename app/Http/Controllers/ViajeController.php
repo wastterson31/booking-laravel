@@ -4,20 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Viajes\Viaje;
 use App\Models\Ciudad;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 
 class ViajeController extends Controller
 {
     public function index()
     {
-        $viajes = Viaje::with(['ciudadOrigen', 'ciudadDestino'])->get();
+        $viajes = Viaje::with(['ciudadOrigen', 'ciudadDestino', 'categoria'])->get();
         return view('viajes.index', compact('viajes'));
     }
+
 
     public function create()
     {
         $ciudades = Ciudad::all();
-        return view('viajes.create', compact('ciudades'));
+        $categorias = Categoria::all(); // Nuevas categorías
+        return view('viajes.create', compact('ciudades', 'categorias'));
     }
 
     public function store(Request $request)
@@ -28,10 +31,10 @@ class ViajeController extends Controller
             'hora_salida' => 'required|date',
             'hora_llegada' => 'required|date',
             'costo' => 'required|numeric',
+            'categoria_id' => 'required|exists:categorias,id', // Nueva validación
         ]);
 
         Viaje::create($request->all());
-
 
         return redirect()->route('viajes.index')->with('success', 'Viaje creado exitosamente.');
     }
@@ -44,32 +47,25 @@ class ViajeController extends Controller
     public function edit(Viaje $viaje)
     {
         $ciudades = Ciudad::all();
-        return view('viajes.edit', compact('viaje', 'ciudades'));
+        $categorias = Categoria::all(); // Nuevas categorías
+        return view('viajes.edit', compact('viaje', 'ciudades', 'categorias'));
     }
 
     public function update(Request $request, Viaje $viaje)
     {
-        // dd($request->all());
         $request->validate([
             'ciudad_origen_id' => 'required|exists:ciudades,id',
             'ciudad_destino_id' => 'required|exists:ciudades,id',
             'hora_salida' => 'required|date',
             'hora_llegada' => 'required|date',
             'costo' => 'required|numeric',
+            'categoria_id' => 'required|exists:categorias,id', // Nueva validación
         ]);
 
-        $viaje->update([
-            'ciudad_origen_id' => $request->ciudad_origen_id,
-            'ciudad_destino_id' => $request->ciudad_destino_id,
-            'hora_salida' => $request->hora_salida,
-            'hora_llegada' => $request->hora_llegada,
-            'costo' => $request->costo,
-            'costo_id' => null,
-        ]);
+        $viaje->update($request->all());
 
         return redirect()->route('viajes.index')->with('success', 'Viaje actualizado exitosamente.');
     }
-
 
     public function destroy(Viaje $viaje)
     {

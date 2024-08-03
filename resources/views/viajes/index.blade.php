@@ -4,7 +4,6 @@
     <div class="container">
         <h1>Viajes</h1>
 
-
         <a href="{{ route('viajes.create') }}" class="btn btn-primary">Crear Viaje</a>
         <table id="example1" class="table table-bordered table-striped">
             <thead>
@@ -15,6 +14,7 @@
                     <th>Hora Salida</th>
                     <th>Hora Llegada</th>
                     <th>Costo</th>
+                    <th>Categoría</th> <!-- Nueva columna -->
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -28,6 +28,9 @@
                         <td>{{ $viaje->hora_llegada }}</td>
                         <td>{{ $viaje->costo }}</td>
                         <td>
+                            {{ $viaje->categoria ? $viaje->categoria->nombre : 'Sin categoría' }}
+                        </td>
+                        <td>
                             <a href="{{ route('viajes.show', $viaje->id) }}" class="btn btn-info">Ver</a>
                             <a href="{{ route('viajes.edit', $viaje->id) }}" class="btn btn-warning">Editar</a>
                             <form action="{{ route('viajes.destroy', $viaje->id) }}" method="POST"
@@ -39,6 +42,7 @@
                         </td>
                     </tr>
                 @endforeach
+
             </tbody>
         </table>
     </div>
@@ -49,7 +53,6 @@
 
     <!-- Scripts específicos de SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
 
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -63,11 +66,11 @@
                 "language": {
                     "lengthMenu": "Mostrar " +
                         `<select class="custom-select custom-select--contr-control-sm">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>` +
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>` +
                         " registros por página",
                     "zeroRecords": "No hay registros",
                     "info": "Mostrando la página _PAGE_ de _PAGES_",

@@ -4,7 +4,6 @@ namespace App\Models\Viajes;
 
 use App\Models\Ciudad;
 use App\Models\Categoria;
-use App\Models\Ticket\Ticket;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -19,29 +18,21 @@ class Viaje extends Model
         'hora_salida',
         'hora_llegada',
         'costo',
+        'categoria_id', // Nuevo campo para categoría
     ];
-
 
     public function ciudadOrigen()
     {
         return $this->belongsTo(Ciudad::class, 'ciudad_origen_id');
     }
 
-
     public function ciudadDestino()
     {
         return $this->belongsTo(Ciudad::class, 'ciudad_destino_id');
     }
 
-
-    public function tickets()
-    {
-        return $this->hasMany(Ticket::class);
-    }
-
-
     public function categoria()
     {
-        return $this->belongsTo(Categoria::class);
+        return $this->belongsTo(Categoria::class, 'categoria_id');
     }
 }

@@ -14,15 +14,24 @@ class AddCategoriaIdToTicketsTable extends Migration
     public function up()
     {
         Schema::table('tickets', function (Blueprint $table) {
-            $table->foreignId('categoria_id')->constrained('categorias');
+            if (!Schema::hasColumn('tickets', 'categoria_id')) {
+                $table->foreignId('categoria_id')->constrained('categorias');
+            }
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
         Schema::table('tickets', function (Blueprint $table) {
-            $table->dropForeign(['categoria_id']);
-            $table->dropColumn('categoria_id');
+            if (Schema::hasColumn('tickets', 'categoria_id')) {
+                $table->dropForeign(['categoria_id']);
+                $table->dropColumn('categoria_id');
+            }
         });
     }
 }

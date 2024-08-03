@@ -15,7 +15,6 @@ class Categoria extends Model
     protected $fillable = [
         'nombre',
         'cantidad_pasajeros',
-        'capacidad_total',
         'asientos_ocupados',
     ];
 

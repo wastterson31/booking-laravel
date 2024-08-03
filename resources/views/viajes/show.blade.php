@@ -11,6 +11,7 @@
                 <p class="card-text">Hora Salida: {{ $viaje->hora_salida }}</p>
                 <p class="card-text">Hora Llegada: {{ $viaje->hora_llegada }}</p>
                 <p class="card-text">Costo: {{ $viaje->costo }}</p>
+                <p class="card-text">Categoría: {{ $viaje->categoria->nombre }}</p> <!-- Mostrar categoría -->
                 <a href="{{ route('viajes.index') }}" class="btn btn-primary">Volver</a>
             </div>
         </div>

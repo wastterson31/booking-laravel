@@ -1,3 +1,5 @@
+<!-- resources/views/viajes/create.blade.php -->
+
 @extends('admin.welcome')
 
 @section('content')
@@ -35,7 +37,17 @@
                 <label for="costo">Costo</label>
                 <input type="number" name="costo" id="costo" class="form-control" step="0.01">
             </div>
+            <div class="form-group">
+                <label for="categoria_id">Categoría</label>
+                <select name="categoria_id" id="categoria_id" class="form-control">
+                    <option value="">Selecciona una categoría...</option>
+                    @foreach ($categorias as $categoria)
+                        <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                    @endforeach
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="{{ route('viajes.index') }}" class="btn btn-primary">Volver</a>
         </form>
     </div>
 @endsection
@@ -54,13 +66,10 @@
     document.addEventListener('DOMContentLoaded', function() {
         const ciudadOrigenSelect = document.getElementById('ciudad_origen_id');
         const ciudadDestinoSelect = document.getElementById('ciudad_destino_id');
-        const todasCiudades =
-            @json($ciudades);
+        const todasCiudades = @json($ciudades);
 
         function actualizarCiudadesDestino(excluirCiudadId) {
-
             ciudadDestinoSelect.innerHTML = '<option value="">Selecciona una ciudad...</option>';
-
             todasCiudades.forEach(function(ciudad) {
                 if (ciudad.id != excluirCiudadId) {
                     const option = document.createElement('option');
@@ -74,11 +83,6 @@
         ciudadOrigenSelect.addEventListener('change', function() {
             const selectedCiudadOrigenId = ciudadOrigenSelect.value;
             actualizarCiudadesDestino(selectedCiudadOrigenId);
-        });
-
-        ciudadDestinoSelect.addEventListener('change', function() {
-            const selectedCiudadDestinoId = ciudadDestinoSelect.value;
-            actualizarCiudadesOrigen(selectedCiudadDestinoId);
         });
     });
 </script>
